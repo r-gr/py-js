@@ -1,0 +1,41 @@
+{
+	"name" : "py-js",
+	"displayname" : "",
+	"version" : "0.0.1",
+	"author" : "shakfu",
+	"authors" : [  ],
+	"description" : "Python3 externals for Max / MSP",
+	"tags" : [  ],
+	"website" : "https://github.com/shakfu/py-js",
+	"extends" : "",
+	"extensible" : 0,
+	"max_version_min" : "8.0.2",
+	"max_version_max" : "none",
+	"os" : 	{
+		"macintosh" : 		{
+			"min_version" : "10.11.x",
+			"platform" : [ "x64", "aarch64" ]
+		}
+,
+		"windows" : 		{
+			"min_version" : "none",
+			"platform" : [ "x64" ]
+		}
+
+	}
+,
+	"homepatcher" : "py_overview.maxpat",
+	"package_extra" : 	{
+		"reverse_domain" : "com.shakfu",
+		"copyright" : "Copyright (c) 2018 Cycling '74"
+	}
+,
+	"filelist" : 	{
+		"externals" : [ "py.mxo", "pyjs.mxo" ],
+		"help" : [ "cobra.maxhelp", "demo.maxhelp", "jmx.maxhelp", "krait.maxhelp", "mamba.maxhelp", "mxpy.maxhelp", "py.maxhelp", "pyjs.maxhelp", "pymx.maxhelp", "shell.maxhelp", "zpy.maxhelp", "zthread.maxhelp" ],
+		"docs" : [ "py.maxref.xml", "pyjs.maxref.xml", "pymx.maxref.xml" ]
+	}
+,
+	"c74install" : 0,
+	"installdate" : 3724239078
+}
