@@ -2,7 +2,7 @@
 
 Simple (and extensible) [python3](https://www.python.org) externals for [MaxMSP](https://cycling74.com).
 
-Currently builds 'natively' on macOS `x86_64`and macOS `arm64`.
+Currently builds 'natively' on macOS `x86_64`and `arm64`.
 
 repo - <https://github.com/shakfu/py-js>
 
@@ -289,11 +289,9 @@ To demonstrate the above, a pre-built standalone that was built using exactly th
 
 ### pyjs.mxo
 
-If you included `pyjs.mxo` as an external in your standalone, then you it may be a litte more involved: 
+If you included `pyjs.mxo` as an external in your standalone, then it may be a litte more involved: 
 
-You can test first if it works without issues by building the following patcher, included in `py-js/patchers`, as a max standalone:
-
-- `py_test_standalone_only_pyjs.maxpat`
+You can first test if it works without issues by building 'a max standalone' from the `py_test_standalone_only_pyjs.maxpat` patcher whici is included in `py-js/patchers`.
 
 Open the resulting standalone and test that the `pyjs` object works as expected. If it doesn't then try the following workaround:
 

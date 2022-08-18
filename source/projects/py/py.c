@@ -200,8 +200,8 @@ t_symbol* py_locate_path_to_external(t_py* x)
     path_toabsolutesystempath(path_id, external_name, external_path);
     // path_nameconform(external_path, conform_path, PATH_STYLE_NATIVE, PATH_TYPE_PATH);
     path_nameconform(external_path, conform_path, PATH_STYLE_NATIVE, PATH_TYPE_TILDE);
-    post("path_id: %d, external_name: %s, external_path: %s conform_path: %s", 
-        path_id, external_name, external_path, conform_path);
+    // post("path_id: %d, external_name: %s, external_path: %s conform_path: %s", 
+    //     path_id, external_name, external_path, conform_path);
     return gensym(external_path);
 }
 
@@ -760,6 +760,47 @@ void py_count(t_py* x)
 }
 
 /**
+ * @brief      join parent path to child subpath
+ *
+ * @param[out] destination  output destination path
+ * @param[in]  path1        parent path
+ * @param[in]  path2        child subpath
+ */
+void path_join(char* destination, const char* path1, const char* path2)
+{
+    //char filename[MAX_FILENAME_CHARS]; 
+    //strncpy_zero(filename,str->s_name, MAX_FILENAME_CHARS); 
+
+    if(path1 == NULL && path2 == NULL) {
+        strcpy(destination, "");
+    }
+    else if(path2 == NULL || strlen(path2) == 0) {
+        strcpy(destination, path1);
+    }
+    else if(path1 == NULL || strlen(path1) == 0) {
+        strcpy(destination, path2);
+    } 
+    else {
+        char directory_separator[] = "/";
+#ifdef WIN32
+        directory_separator[0] = '\\';
+#endif
+        const char *last_char = path1;
+        while(*last_char != '\0')
+            last_char++;        
+        int append_directory_separator = 0;
+        if(strcmp(last_char, directory_separator) != 0) {
+            append_directory_separator = 1;
+        }
+        strcpy(destination, path1);
+        if(append_directory_separator)
+            strcat(destination, directory_separator);
+        strcat(destination, path2);
+    }
+}
+
+
+/**
  * @brief      Displays info about the external
  *
  * @param      x     pointer to object struct.
@@ -795,6 +836,38 @@ void py_info(t_py* x)
 
     t_symbol* path = py_locate_path_to_external(x);
     post("externalpath: %s", path->s_name);
+
+    // test new path finding
+    char* package_path[MAX_PATH_CHARS];
+    char* package_externals_path[MAX_PATH_CHARS];
+    char* external_name[MAX_PATH_CHARS];
+    char* externals_folder[MAX_PATH_CHARS];
+    path_splitnames(path->s_name, package_externals_path, external_name);
+    post("package_externals_path: %s", package_externals_path);
+    post("external_name: %s", external_name);
+
+    path_splitnames(package_externals_path, package_path, externals_folder);
+    post("package_path: %s", package_path);
+    post("externals_folder: %s", externals_folder);    
+  
+    // package mode
+    const char* support_python_path = "support/python" PY_VER;
+
+    char external_contents_path[MAX_PATH_CHARS];
+    char external_resources_path[MAX_PATH_CHARS];
+    char python_path[MAX_PATH_CHARS];
+
+    path_join(external_contents_path, path->s_name, "Contents");
+    path_join(external_resources_path, external_contents_path, "Resources");
+    path_join(python_path, package_path, support_python_path);
+
+    post("external_resources_path: %s", external_resources_path);
+    post("python_path: %s", python_path);
+
+    // char* package_path[MAX_PATH_CHARS];
+    // char* package_externals_path[MAX_PATH_CHARS];
+
+
 }
 
 /*--------------------------------------------------------------------------*/
@@ -807,7 +880,6 @@ void py_info(t_py* x)
  */
 void py_bang(t_py* x)
 {
-
     // just a passthrough: bang out the left outlet
     outlet_bang(x->p_outlet_left);
 }
